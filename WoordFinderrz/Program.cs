@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -14,15 +15,21 @@ namespace WoordFinderrz
         {
             Console.WriteLine("Loading...");
             List<string> woorden = new List<string>();
-            var fileStream = new FileStream(@"C:woorden.txt", FileMode.Open, FileAccess.Read);
-            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
+
+            var assembly = Assembly.GetExecutingAssembly();
+            string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith("woordenAlleenLetters.txt"));
+
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
             {
                 string line;
-                while ((line = streamReader.ReadLine()) != null)
+                while ((line = reader.ReadLine()) != null)
                 {
                     woorden.Add(line);
                 }
             }
+              
             Console.Clear();
             List<String> matches = new List<string>();
             while (true)

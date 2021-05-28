@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="naamloos_qwS_icon.ico" />
+    <EmbeddedResource Include="woordenAlleenLetters.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
