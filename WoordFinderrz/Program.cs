@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WoordFinderrz
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -28,9 +28,9 @@ namespace WoordFinderrz
             while (true)
             {
                 matches.Clear();
-                Console.WriteLine("Voer uw regex in:");
+                Console.WriteLine("Voer uw tekstpatroon in:");
                 string input = Console.ReadLine();
-                Regex r = new Regex("^" + input + "$");
+                Regex r = parseRegex(input);
                 Console.WriteLine();
                 Console.WriteLine("De volgende woorden matchen:");
                 foreach (string woord in woorden)
@@ -49,6 +49,38 @@ namespace WoordFinderrz
                 }
                 Console.WriteLine();
             }
+        }
+
+        public static Regex parseRegex(string input)
+        {
+            List<int> usedNumbers = new List<int>();
+            string regex = "^";
+            foreach(char c in input)
+            {
+                if (Char.IsDigit(c))
+                {
+                    int number = int.Parse(c.ToString());
+                    if (!usedNumbers.Contains(number))
+                    {
+                        usedNumbers.Add(number);
+                        regex += "(.)";
+                    }
+                    else
+                    {
+                        int oldNumber = usedNumbers.FindIndex((x => x == number))+1;
+                        regex += "\\" + oldNumber; 
+                    }
+                    
+
+
+                }
+                else if(Char.IsLetter(c))
+                {
+                    regex += c;
+                }
+            }
+            regex += "$";
+            return new Regex(regex);
         }
     }
 }
